@@ -1,0 +1,29 @@
+.bord{
+    border:1px solid grey;
+}
+.heading{
+    background-color: #ff5959;
+    color: white;
+    padding: 20px;
+    
+}
+.side-bar
+{
+    background-color: #085f63;
+    padding: 5px;
+}
+
+.side-item{
+    margin:10px 0;
+    cursor: pointer;
+    padding: 10px;
+}
+.side-item:hover{
+    background-color:#49beb7;
+}
+.panel{
+    padding: 10px;
+}
+.side-active{
+    background-color:#49beb7;
+}

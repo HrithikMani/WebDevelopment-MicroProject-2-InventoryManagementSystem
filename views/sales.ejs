@@ -1,0 +1,65 @@
+
+
+<table class="table" >
+    <thead>
+        <h1>Sales Report</h1>
+    </thead>
+    <thead>
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">Purchase Date</th>
+        <th scope="col">Product Id</th>
+        <th scope="col">Quantity</th>
+        <th scope="col">Total Sales($)</th>
+       
+      </tr>
+    </thead>
+    <tbody>
+     <tr>
+        <td>1</td>
+        <td>20-12-2020</td>
+        <td>1</td>
+        <td>15</td>
+        <td>20$</td>
+    </tr>
+
+    <tr>
+        <td>1</td>
+        <td>20-12-2020</td>
+        <td>1</td>
+        <td>15</td>
+        <td>20$</td>
+    </tr>
+    <tr>
+        <td>1</td>
+        <td>20-12-2020</td>
+        <td>1</td>
+        <td>15</td>
+        <td>20$</td>
+    </tr>
+     
+    </tbody>
+  </table>
+<div class="row">
+    <dic class="col " style="padding: 30px;">
+        <h1 class="float-right">Total : $20</h1>
+        
+    </div>
+    
+</div>
+
+<div class="row" >
+    <div class="col"></div>
+    <div class="col-5 bord repo" style="margin-bottom:50px;">
+        
+        Loading...
+    </div>
+    <div class="col"></div>
+</div>
+<script>
+    $.get("/report",(data) => {
+        $(".repo").html(data);
+    })
+
+</script>
+

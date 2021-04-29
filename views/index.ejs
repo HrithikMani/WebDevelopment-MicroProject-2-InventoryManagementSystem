@@ -1,11 +1,117 @@
+<html>
+    <head>
+        
+
 <link href="style.css"  rel="stylesheet" >
 
 <link href="/node/bootstrap/dist/css/bootstrap.min.css"  rel="stylesheet" >
 
 
-<h1 class="text-primary">Hi </h1>
+    </head>
+    
+<body>
+<div class="container-fluid heading">
+    <div class="row">
+        <div class="col">
+            <h1>Inventory</h1>
+        </div>
+    </div>
+</div>
+<div class="container-fluid main">
+        <div class="row side-bar-h" >
+            <div class="col-2 bord side-bar text-light h-100" >
+                <div class="row side-item side-active">
+                    <div class="text-center col">
+                    <h4>Products</h4>
+                    </div>
+                </div>
+
+                <div class="row side-item">
+                    <div class="text-center col">
+                    <h3>Add Product</h3>
+                    </div>
+                </div>
+
+                <div class="row side-item">
+                    <div class="text-center col">
+                    <h3>Sales Details</h3>
+                    </div>
+                </div>
+
+
+                
+            </div>
+            <div class="col">
+
+                <div class="row bord panel" style="display: none;color:white;">
+                    <div class="col">
+                        <button type="button" class="btn btn-primary">Generate PDF</button>
+                        <button type="button" class="btn btn-warning">Generate Excel Sheet</button>
+                    </div>
+                </div>
+                <div class="row  ">
+                    <div class="col table-prod">
+                        <h4>Loading.....</h4>
+                    </div> 
+                    
+                </div>
+            </div>
+        </div>
+</div>
 
 
 <script src="/node/jquery/dist/jquery.min.js"   ></script>
 <script src="/node/popper.js/dist/popper.min.js"   ></script>
 <script src="/node/bootstrap/dist/js/bootstrap.min.js" ></script>
+
+<script src="/node/chart.js/dist/chart.min.js" ></script>
+
+<script>
+    function updateSide(){
+        $(".side-bar-h").css("height",$(window).height());
+    }
+
+    $(".heading").hide();
+    $(".main").hide();
+
+    $(document).ready(()=>{
+
+        $(window).resize(function(){
+            updateSide();
+        });
+
+        updateSide();
+        $(".heading").fadeIn("slow");
+        $(".main").fadeIn("slow");
+       
+        $.get("/sales",function(data){
+
+            $(".table-prod").fadeIn().html(data);
+            updateSide();
+            
+        });
+
+        
+
+
+
+    });
+
+ 
+</script>
+
+
+
+
+
+</body>
+
+</html>
+
+
+
+
+
+
+
+
