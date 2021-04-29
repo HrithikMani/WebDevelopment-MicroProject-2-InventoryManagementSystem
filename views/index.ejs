@@ -20,19 +20,19 @@
 <div class="container-fluid main">
         <div class="row side-bar-h" >
             <div class="col-2 bord side-bar text-light h-100" >
-                <div class="row side-item side-active">
+                <div class="products row side-item side-active">
                     <div class="text-center col">
-                    <h4>Products</h4>
+                    <h3>Products</h3>
                     </div>
                 </div>
 
-                <div class="row side-item">
+                <div class="addproduct row side-item">
                     <div class="text-center col">
                     <h3>Add Product</h3>
                     </div>
                 </div>
 
-                <div class="row side-item">
+                <div class=" sales row side-item">
                     <div class="text-center col">
                     <h3>Sales Details</h3>
                     </div>
@@ -60,6 +60,18 @@
 </div>
 
 
+
+
+
+
+
+
+
+
+
+
+
+
 <script src="/node/jquery/dist/jquery.min.js"   ></script>
 <script src="/node/popper.js/dist/popper.min.js"   ></script>
 <script src="/node/bootstrap/dist/js/bootstrap.min.js" ></script>
@@ -76,22 +88,66 @@
 
     $(document).ready(()=>{
 
-        $(window).resize(function(){
-            updateSide();
-        });
+     
 
         updateSide();
         $(".heading").fadeIn("slow");
         $(".main").fadeIn("slow");
        
-        $.get("/sales",function(data){
+        $.get("/getAllProducts",function(data){
 
             $(".table-prod").fadeIn().html(data);
-            updateSide();
+      
             
         });
 
+        $(".products").click(function(){
+            $(".products").addClass("side-active");
+            $(".addproduct").removeClass("side-active");
+           
+              $(".sales").removeClass("side-active");
+            $(".table-prod").html(" <h4>Loading.....</h4>");
+            $.get("/getAllProducts",function(data){
+
+                $(".table-prod").fadeIn().html(data);
         
+                
+            });
+           
+            $(this).addClass("side-active");
+        });
+
+
+        $(".sales").click(()=>{
+            $(".addproduct").removeClass("side-active");
+             $(".products").removeClass("side-active");
+              $(".sales").addClass("side-active");
+             $(".table-prod").html(" <h4>Loading.....</h4>");
+             $.get("/sales",function(data){
+ 
+                 $(".table-prod").fadeIn().html(data);
+                
+                 
+             });
+            
+             
+        });
+
+
+        $(".addproduct").click(()=>{
+            $(".addproduct").addClass("side-active");
+             $(".products").removeClass("side-active");
+              $(".sales").removeClass("side-active");
+             $(".table-prod").html(" <h4>Loading.....</h4>");
+             $.get("/addProduct",function(data){
+ 
+                 $(".table-prod").fadeIn().html(data);
+               
+                 
+             });
+            
+             
+        });
 
 
 

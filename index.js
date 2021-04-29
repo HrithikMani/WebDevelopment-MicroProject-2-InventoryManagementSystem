@@ -18,8 +18,9 @@ res.render("index.ejs");
 
 
 //views
-app.get("/home", (req,res) => {
+app.get("/addProduct", (req,res) => {
     //home page
+    res.render("addproduct.ejs");
 })
 
 
@@ -28,7 +29,7 @@ app.get("/home", (req,res) => {
 //requests
 app.post("/addProduct", (req,res) => {
     //Add Product
-    res.send("hi");
+   
 })
 
 app.post("/removeProduct", (req,res) => {
