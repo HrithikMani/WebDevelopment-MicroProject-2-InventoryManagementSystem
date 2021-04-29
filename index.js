@@ -56,10 +56,12 @@ app.get("/sales",(req,res)=>{
 })
 
 app.get("/report",(req,res)=>{
-    res.render("salesgraph.ejs");
+    res.render("report.ejs");
 })
 
-
+app.get("/salesgraph", (req,res)=>{
+    res.render("salesgraph.ejs");
+})
 
 
 
