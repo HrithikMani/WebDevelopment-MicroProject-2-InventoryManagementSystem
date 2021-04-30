@@ -30,7 +30,7 @@
       <tr>
         
 
-        <th scope="row"><%= i+1 %></th>
+        <th scope="row"><%= res[i].id %></th>
         <td ><%= res[i].brand%></td>
         <td><%= res[i].pname%></td>
         <% var a = "bg-warning" %>
@@ -52,7 +52,7 @@
         <td><button value=<%= res[i]._id %>  type="button" class="edit btn btn-primary" data-target="#EditModal" data-toggle="modal" >Edit</button></td>
         
         <td><button value=<%= res[i]._id %> type="button" class="btn btn-primary sold" data-target="#SoldModal" data-toggle="modal" >Sold</button></td>
-        <td><button value=<%= res[i]._id %>  type="button" class="btn btn-danger" data-target="#DeleteModal" data-toggle="modal">Delete</button></td>
+        <td><button value=<%= res[i]._id %>  type="button" class="del btn btn-danger" data-target="#DeleteModal" data-toggle="modal">Delete</button></td>
     </tr>
 
     <% } %>
@@ -75,8 +75,8 @@
           <p>Are you sure you want to delete? </p>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-danger">Delete</button>
-          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          <button type="button" class="delBtn btn btn-danger">Delete</button>
+          <button type="button" class=" btn btn-secondary" data-dismiss="modal">Close</button>
         </div>
       </div>
     </div>
@@ -160,6 +160,20 @@
     </div>
   </div>
 <script>
+
+  $(".del").click(function() {
+    $(".delBtn").attr("value",$(this).attr("value"));
+  });
+
+  $(".delBtn").click(function(){
+    var x = $(this).val();
+    
+    $.post("/removeProduct/"+x,function(data){
+      if(data){
+        location.reload();
+      }
+    });
+  });
 
 
 $(".sold").click(function() {
