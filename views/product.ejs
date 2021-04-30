@@ -7,12 +7,15 @@
     }
 </style>
 
+
+
+
+
 <table class="table">
     <thead>
       <tr>
         <th scope="col">#</th>
         <th scope="col">Brand</th>
-        <th scope="col">Category</th>
         <th scope="col">Name</th>
         <th scope="col">Quantity</th>
         <th scope="col">Cost Price</th>
@@ -23,27 +26,34 @@
       </tr>
     </thead>
     <tbody>
+      <%  for(var i=0;i<res.length;i++){  %>
       <tr>
-        <th scope="row">1</th>
-        <td >Johnnie Walker</td>
-        <td>Whiskey</td>
-        <td>Black Label</td>
+        
 
+        <th scope="row"><%= i+1 %></th>
+        <td ><%= res[i].brand%></td>
+        <td><%= res[i].pname%></td>
+        <% var a = "bg-primary" %>
+        <%
+          if(Number(res[i].quantity < 30)){
+            a = "bg-danger"
+          }
+        %>
         <td>
             <div class="progress" style="height: 20px; ">
-                <div class="progress-bar"  role="progressbar" style="width: 25%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">25</div>
+                <div class="progress-bar <%= a %> "  role="progressbar" style="width: <%=(Number(res[i].quantity)) %>%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"> <%= res[i].quantity%> </div>
               </div>
 
         </td>
-        <td>$200</td>
-        <td>$210</td>
-        <td><button type="button" class="btn btn-primary" data-target="#EditModal" data-toggle="modal" >Edit</button></td>
+        <td>$ <%= res[i].cost_price %></td>
+        <td>$ <%= res[i].sell_price %></td>
+        <td><button value=<%= res[i]._id %>  type="button" class="btn btn-primary" data-target="#EditModal" data-toggle="modal" >Edit</button></td>
         
-        <td><button type="button" class="btn btn-primary" data-target="#SoldModal" data-toggle="modal" >Sold</button></td>
-        <td><button type="button" class="btn btn-danger" data-target="#DeleteModal" data-toggle="modal">Delete</button></td>
+        <td><button value=<%= res[i]._id %> type="button" class="btn btn-primary" data-target="#SoldModal" data-toggle="modal" >Sold</button></td>
+        <td><button value=<%= res[i]._id %>  type="button" class="btn btn-danger" data-target="#DeleteModal" data-toggle="modal">Delete</button></td>
     </tr>
 
- 
+    <% } %>
 
 
      

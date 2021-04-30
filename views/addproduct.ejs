@@ -7,6 +7,9 @@
 <div class="row bord" style="padding:20px;">
     <div class="col">
         <form>
+          <div class="alert alert-warning" id="feed" role="alert" style="display: none;">
+            Loading...
+          </div>
             <div class="form-row">
               <div class="form-group col-md-6">
                 <label for="productid">Product ID</label>
@@ -37,7 +40,64 @@
                 </div>
               </div>
             
-            <button type="submit" class="btn btn-primary">Add Product</button>
+            <button type="button" id="addPro" class="btn btn-primary">Add Product</button>
           </form>
     </div>
 </div>
+
+<script>
+  $("#addPro").click(()=>{
+    $("#feed").removeClass("alert-success").slideUp();
+    if($("#productid").val().length == 0){
+      $("#feed").html("<strong>Please Enter Product Id</strong>").slideDown();
+      return;
+    }
+    var pid = $("#productid").val();
+
+    if($("#Brand").val().length == 0){
+      $("#feed").html("<strong>Please Enter Brand</strong>").slideDown();
+      return;
+    }
+    var brand = $("#Brand").val();
+
+    if($("#productName").val().length == 0){
+      $("#feed").html("<strong>Please Enter Product Name</strong>").slideDown();
+      return;
+    }
+    var pname = $("#productName").val();
+
+    if($("#quantity").val().length == 0){
+      $("#feed").html("<strong>Please Enter Quantity</strong>").slideDown();
+      return;
+    }
+    var quantity = $("#quantity").val();
+
+    if($("#costprice").val().length == 0){
+      $("#feed").html("<strong>Please Enter Cost Price</strong>").slideDown();
+      return;
+    }
+    var costp = $("#costprice").val();
+
+    if($("#sellprice").val().length == 0){
+      $("#feed").html("<strong>Please Enter Sell Price</strong>").slideDown();
+      return;
+    }
+    var sellp=$("#sellprice").val();
+    var data = {
+      "id":pid,
+      "brand":brand,
+      "pname":pname,
+      "quantity":quantity,
+      "cost_price":costp,
+      "sell_price":sellp
+    }
+    $("#feed").html("<strong>Loading....</strong>").removeClass("alert-success").addClass("alert-warning").slideDown();
+    $.post("/addProduct",data,(data)=>{
+      if(data == 1){
+        $("#feed").html("<strong>Product Added Successfully</strong>").removeClass("alert-warning").addClass("alert-success");
+      }else{
+        $("#feed").html("<strong>Product could not be added</strong>");
+      }
+    });
+  });
+</script>
