@@ -72,7 +72,7 @@
     }
     var quantity = $("#quantity").val();
 
-    if($("#costprice").val().length == 0){
+    if($("#costprice").val().length == 0 ){
       $("#feed").html("<strong>Please Enter Cost Price</strong>").slideDown();
       return;
     }
@@ -87,7 +87,7 @@
       "id":pid,
       "brand":brand,
       "pname":pname,
-      "quantity":quantity,
+      "quantity":NumberInt(quantity),
       "cost_price":costp,
       "sell_price":sellp
     }

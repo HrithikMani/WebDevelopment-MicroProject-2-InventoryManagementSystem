@@ -33,10 +33,12 @@
         <th scope="row"><%= i+1 %></th>
         <td ><%= res[i].brand%></td>
         <td><%= res[i].pname%></td>
-        <% var a = "bg-primary" %>
+        <% var a = "bg-warning" %>
         <%
           if(Number(res[i].quantity < 30)){
             a = "bg-danger"
+          }else if(Number(res[i].quantity >= 100)){
+            a = "bg-success"
           }
         %>
         <td>
@@ -47,9 +49,9 @@
         </td>
         <td>$ <%= res[i].cost_price %></td>
         <td>$ <%= res[i].sell_price %></td>
-        <td><button value=<%= res[i]._id %>  type="button" class="btn btn-primary" data-target="#EditModal" data-toggle="modal" >Edit</button></td>
+        <td><button value=<%= res[i]._id %>  type="button" class="edit btn btn-primary" data-target="#EditModal" data-toggle="modal" >Edit</button></td>
         
-        <td><button value=<%= res[i]._id %> type="button" class="btn btn-primary" data-target="#SoldModal" data-toggle="modal" >Sold</button></td>
+        <td><button value=<%= res[i]._id %> type="button" class="btn btn-primary sold" data-target="#SoldModal" data-toggle="modal" >Sold</button></td>
         <td><button value=<%= res[i]._id %>  type="button" class="btn btn-danger" data-target="#DeleteModal" data-toggle="modal">Delete</button></td>
     </tr>
 
@@ -98,7 +100,7 @@
           </div>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-primary">Sold</button>
+          <button type="button" class="btn btn-primary" id="soldbtn">Sold</button>
           <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
         </div>
       </div>
@@ -139,11 +141,11 @@
               <div class="form-row">
                 <div class="form-group col-md-6">
                   <label for="costprice">Cost price</label>
-                  <input type="text" class="form-control" id="costprice" placeholder="Old Cost Price was ">
+                  <input type="number" class="form-control" id="costprice" placeholder="Old Cost Price was ">
                 </div>
                 <div class="form-group col-md-6">
                   <label for="sellprice">Sell Price</label>
-                  <input type="text" class="form-control" id="sellprice" placeholder="Old Sell price was ">
+                  <input type="number" class="form-control" id="sellprice" placeholder="Old Sell price was ">
                 </div>
               </div>
             
@@ -151,12 +153,87 @@
           </form>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-primary">Edit Product</button>
+          <button type="button" id="editBtn" class="btn btn-primary">Edit Product</button>
           <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
         </div>
       </div>
     </div>
   </div>
+<script>
 
+
+$(".sold").click(function() {
+  $("#soldbtn").attr("value",$(this).attr("value"));
+});
+$("#soldbtn").click(function(){
+
+  var today = new Date();
+var dd = String(today.getDate()).padStart(2, '0');
+var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
+var yyyy = today.getFullYear();
+
+today = dd + '-' + mm + '-' + yyyy;
+
+  var x = $(this).val();
+  var y = $("#soldquantity").val();
+
+  $.post("/updateSales/"+x,{qty:y,date:today},function(data){
+    if(data == 1){
+
+
+      $.post("/decSales/"+x,{value:Number(y)},function(data){
+        if(data){
+          location.reload();
+        }
+      });
+
+    }else{
+      alert("not updated server not responding");
+    }
+  })
+});
+
+  $(".edit").click(function(){
+    var val  = $(this).val();
+    
+    $("#editBtn").attr("value",val);
+    $.get("/getProductById/"+val,function(data){
+      $("#productid").attr("value",data.id);
+      $("#Brand").attr("value",data.brand);
+      $("#productName").attr("value",data.pname);
+      $("#quantity").attr("value",data.quantity);
+      $("#costprice").attr("placeholder","Old Cost Price was "+data.cost_price).val(data.cost_price);
+      $("#sellprice").attr("placeholder","Old Sell Price was "+data.sell_price).val(data.cost_price);
+    });
+  });
+ 
+  $("#editBtn").click(function() {
+    var val = $(this).val();
+    var quantity = $("#quantity").val();
+    var sell =  $("#sellprice").val();
+    var cost = $("#costprice").val();
+
+    var data = {
+    
+      "quantity":quantity,
+      "cost_price":cost,
+      "sell_price":sell
+    }
+
+    $.post("/updateProduct/"+val,data,function(res){
+      
+      if(res == 1){
+        alert("Product updated");
+        location.reload();
+      }else{
+        alert("Server not responding");
+      }
+    })
+   
+
+
+
+  });
+</script>
 
   

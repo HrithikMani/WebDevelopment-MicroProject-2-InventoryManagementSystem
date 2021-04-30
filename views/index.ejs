@@ -102,6 +102,7 @@
         });
 
         $(".products").click(function(){
+            $(".panel").hide();
             $(".products").addClass("side-active");
             $(".addproduct").removeClass("side-active");
            
@@ -119,6 +120,8 @@
 
 
         $(".sales").click(()=>{
+            $(".panel").fadeIn();
+
             $(".addproduct").removeClass("side-active");
              $(".products").removeClass("side-active");
               $(".sales").addClass("side-active");
@@ -135,6 +138,7 @@
 
 
         $(".addproduct").click(()=>{
+            $(".panel").hide();
             $(".addproduct").addClass("side-active");
              $(".products").removeClass("side-active");
               $(".sales").removeClass("side-active");
