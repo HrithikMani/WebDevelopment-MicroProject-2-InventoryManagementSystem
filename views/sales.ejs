@@ -1,48 +1,49 @@
 
 
+
+
 <table class="table" >
     <thead>
         <h1 style="padding: 10px;">Sales Report</h1>
     </thead>
     <thead>
+       
       <tr>
         <th scope="col">#</th>
         <th scope="col">Purchase Date</th>
         <th scope="col">Product Id</th>
         <th scope="col">Quantity</th>
+        <th scope="col">Sell Price</th>
         <th scope="col">Total Sales($)</th>
        
       </tr>
     </thead>
     <tbody>
+        <%
+        var sum=0;
+        for(var i=0;i<res.length;i++)
+        {   if(res[i].sales.quantity != null){
+            var x = Number(res[i].sales.quantity)*Number(res[i].sell_price);
+            sum = sum+x;
+        %>  
+          
      <tr>
-        <td>1</td>
-        <td>20-12-2020</td>
-        <td>1</td>
-        <td>15</td>
-        <td>20$</td>
+        <td><%= i+1 %></td>
+        <td><%= res[i].sales.date %></td>
+        <td><%= res[i].id %></td>
+        <td><%= res[i].quantity %></td>
+        <td>$<%= res[i].sell_price %></td>
+        <td>$<%=  x %></td>
     </tr>
+    <% }} %>
+   
+ 
 
-    <tr>
-        <td>1</td>
-        <td>20-12-2020</td>
-        <td>1</td>
-        <td>15</td>
-        <td>20$</td>
-    </tr>
-    <tr>
-        <td>1</td>
-        <td>20-12-2020</td>
-        <td>1</td>
-        <td>15</td>
-        <td>20$</td>
-    </tr>
-     
     </tbody>
   </table>
 <div class="row">
     <dic class="col " style="padding: 30px;">
-        <h1 class="float-right">Total : $20</h1>
+        <h1 class="float-right">Total : $<%= sum %></h1>
         
     </div>
     

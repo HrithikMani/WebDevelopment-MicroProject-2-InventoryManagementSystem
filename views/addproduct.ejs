@@ -89,7 +89,8 @@
       "pname":pname,
       "quantity":Number(quantity),
       "cost_price":costp,
-      "sell_price":sellp
+      "sell_price":sellp,
+      "sales":null
     }
     $("#feed").html("<strong>Loading....</strong>").removeClass("alert-success").addClass("alert-warning").slideDown();
     $.post("/addProduct",data,(data)=>{

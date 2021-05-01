@@ -1,32 +1,37 @@
+
+<div id="ldata" label= "<%= data[0] %>"></div>
+<div id="lvalues" label= "<%= data[1] %>"></div>
 <canvas id="myChart" width="500px" height="500px" ></canvas>
 <script>
  
+   
+
+
     var ctx = $("#myChart");
+    var label= $("#ldata").attr("label").split(",");
+    var values= $("#lvalues").attr("label").split(",");
+   // console.log(label);
 
-
+    function getRandomColor() {
+        var r = Math.floor(Math.random() * 255);
+        var g = Math.floor(Math.random() * 255);
+        var b = Math.floor(Math.random() * 255);
+        return "rgb(" + r + "," + g + "," + b + ")";
+    }
+    var colors=[]
+    for(var i=0;i<label.length;i++){
+        colors.push(getRandomColor());
+    }
+    //console.log(colors);
     var myChart = new Chart(ctx, {
         type: 'pie',
         data: {
-            labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange','Orange','Orange','Orange'],
+            labels: label,
             datasets: [{
                 label: 'Sales Report',
-                data: [20, 40, 50, 60, 80, 100,60,70,80,90],
-                backgroundColor: [
-                    'rgba(255, 99, 132, 0.2)',
-                    'rgba(54, 162, 235, 0.2)',
-                    'rgba(255, 206, 86, 0.2)',
-                    'rgba(75, 192, 192, 0.2)',
-                    'rgba(153, 102, 255, 0.2)',
-                    'rgba(255, 159, 64, 0.2)'
-                ],
-                borderColor: [
-                    'rgba(255, 99, 132, 1)',
-                    'rgba(54, 162, 235, 1)',
-                    'rgba(255, 206, 86, 1)',
-                    'rgba(75, 192, 192, 1)',
-                    'rgba(153, 102, 255, 1)',
-                    'rgba(255, 159, 64, 1)'
-                ],
+                data: values,
+                backgroundColor: colors,
+                borderColor: colors,
                 borderWidth: 2
             }]
         },

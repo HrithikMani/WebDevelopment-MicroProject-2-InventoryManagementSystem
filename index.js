@@ -36,15 +36,46 @@ app.get("/addProduct", (req,res) => {
 })
 
 app.get("/sales",(req,res)=>{
-    res.render("sales.ejs");
+    
+    db.collection("products").find().toArray((err,data)=> {
+        
+        res.render("sales.ejs",{res:data});
+     });
+     
+})
+
+
+app.get("/salesgraph", (req,res)=>{
+
+    var a =  db.collection("products").find({}).project({"id":1,"brand":1,"pname":1,sales:1,"sell_price":1}).toArray(function(err,data){
+        var r = []
+        var x=[]
+        var y =[]
+        for(var i=0;i<data.length;i++){
+            
+            if(data[i].sales.quantity != null){
+                var label = "Product_id "+data[i].id +"   ";
+                x.push(label)
+                var cost = Number(data[i].sales.quantity)*Number(data[i].sell_price);
+                y.push(cost)
+            }
+        }
+        r.push(x);
+        r.push(y);
+        console.log(r);
+        res.render("salesgraph.ejs",{data:r});
+   });
+  
+   
+   
+
+   
+
+  
 })
 
 app.get("/report",(req,res)=>{
     res.render("report.ejs");
-})
-
-app.get("/salesgraph", (req,res)=>{
-    res.render("salesgraph.ejs");
 })
 
 app.get("/getAllProducts", (req,res) => {
