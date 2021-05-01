@@ -6,7 +6,7 @@
 
 <link href="/node/bootstrap/dist/css/bootstrap.min.css"  rel="stylesheet" >
 
-
+<title>Inventory Mangement</title>
     </head>
     
 <body>
@@ -19,7 +19,7 @@
 </div>
 <div class="container-fluid main">
         <div class="row side-bar-h" >
-            <div class="col-2 bord side-bar text-light h-100" >
+            <div class="col-2 bord side-bar " >
                 <div class="products row side-item side-active">
                     <div class="text-center col">
                     <h3>Products</h3>
@@ -45,8 +45,8 @@
 
                 <div class="row bord panel" style="display: none;color:white;">
                     <div class="col">
-                        <button type="button" class="btn btn-primary">Generate PDF</button>
-                        <button type="button" class="btn btn-warning">Generate Excel Sheet</button>
+                        <button type="button" class="gpdf btn btn-primary">Generate PDF</button>
+                        <button type="button" class="gexcel btn btn-warning">Generate Excel Sheet</button>
                     </div>
                 </div>
                 <div class="row  ">
@@ -83,13 +83,20 @@
         $(".side-bar-h").css("height",$(window).height());
     }
 
+
+
+
     $(".heading").hide();
     $(".main").hide();
 
     $(document).ready(()=>{
 
-     
-
+        $(".gpdf").click(function(){
+            window.location = "/report"
+        });
+        $(".gexcel").click(function(){
+           window.location = "/excel";
+        });
         updateSide();
         $(".heading").fadeIn("slow");
         $(".main").fadeIn("slow");

@@ -1,5 +1,4 @@
-
-<link href="/node/bootstrap/dist/css/bootstrap.min.css"  rel="stylesheet" >
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 
 <div class="container" style="margin-top: 20px;">
   <div class="row">
@@ -19,42 +18,42 @@
           </tr>
         </thead>
         <tbody>
-         <tr>
-            <td>1</td>
-            <td>20-12-2020</td>
-            <td>1</td>
-            <td>15</td>
-            <td>20$</td>
-        </tr>
-    
-        <tr>
-            <td>1</td>
-            <td>20-12-2020</td>
-            <td>1</td>
-            <td>15</td>
-            <td>20$</td>
-        </tr>
-        <tr>
-            <td>1</td>
-            <td>20-12-2020</td>
-            <td>1</td>
-            <td>15</td>
-            <td>20$</td>
-        </tr>
+          <%
+        var sum=0;
+        var labels= [];
+        var values = []
+        for(var i=0;i<res.length;i++)
+        {   if(res[i].sales.quantity != null){
+            var x = Number(res[i].sales.quantity)*Number(res[i].sell_price);
+            sum = sum+x;
+           labels.push(res[i].id);
+           values.push(x);
+        %>  
+          
+     <tr>
+        <td><%= i+1 %></td>
+        <td><%= res[i].sales.date %></td>
+        <td><%= res[i].id %></td>
+        <td><%= res[i].quantity %></td>
+        <td>$<%= res[i].sell_price %></td>
+        <td>$<%=  x %></td>
+    </tr>
+    <% }} %>
+   
+ 
          
         </tbody>
       </table>
     <div class="row">
         <dic class="col ">
-            <h1 class="float-right">Total : $20</h1>
+          <h1 class="float-right">Total : $<%= sum %></h1>
         </div>
 
 
         <div class="row" >
           <div class="col"></div>
           <div class="col-5 bord repo" style="margin-bottom:50px;">
-              
-              Loading...
+           Loading..
           </div>
           <div class="col"></div>
         </div>
@@ -69,13 +68,17 @@
 
 
 
-<script src="/node/jquery/dist/jquery.min.js"   ></script>
-<script src="/node/popper.js/dist/popper.min.js"   ></script>
-<script src="/node/bootstrap/dist/js/bootstrap.min.js" ></script>
-<script src="/node/chart.js/dist/chart.min.js" ></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
   $.get("/salesgraph",(data) => {
       $(".repo").html(data);
   })
+
+  
+alert("Press control + p to get a pdf")
+
 
 </script>

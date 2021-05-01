@@ -2,10 +2,16 @@ const express=require("express");
 const app=express();
 
 const bodyParser=require('body-parser');
-app.use(bodyParser.urlencoded({extended:true}));
-app.use(bodyParser.json());
+
 const MongoClient =require('mongodb').MongoClient;
 const { ObjectID } = require("mongodb");
+const ejs = require("ejs");
+const pdf = require('html-pdf');
+const Excel = require('exceljs')
+const path = require("path");
+app.use(bodyParser.urlencoded({extended:true}));
+app.use(bodyParser.json());
+
 app.use(express.static('public'));
 app.use('/node', express.static(__dirname + '/node_modules'));
 
@@ -21,6 +27,62 @@ MongoClient.connect('mongodb://localhost:27017/inventory',(err,database)=>{
     db=database.db("inventory");
 })
 
+app.get("/excel",function(req,res){
+  
+    var data= [
+    {
+        "sno":1,
+        "id":2,
+        "quantity":20,
+        "sell_price":20,
+        "sales_cost":200
+    }
+    ]
+    db.collection("products").find().toArray(function(err,doc){
+        let workbook = new Excel.Workbook();
+        let worksheet = workbook.addWorksheet('Sales');
+        worksheet.columns = [
+            {header: "sno",key:"sno",width:15 },
+            {header: "Purchased_Date",key:"date",width:20 },
+            {header: "Product_Id",key:"id",width:15 },
+            {header: "Quantity",key:"quantity",width:15 },
+            {header: "Sell_Price",key:"sell_price",width:15 },
+            {header: "Total_sales",key:"sales_cost",width:15 }
+        ]
+        var sum=0;
+        for(var i=0;i<doc.length;i++){
+            if(doc[i].sales.quantity != null){
+                var x = {
+                    "sno":i+1,
+                    "id":doc[i].id,
+                    "quantity":doc[i].sales.quantity,
+                    "sell_price":doc[i].sell_price,
+                    "sales_cost":Number(doc[i].sales.quantity)*Number(doc[i].sell_price),
+                    "date":doc[i].sales.date
+                }
+                sum= sum+Number(doc[i].sales.quantity)*Number(doc[i].sell_price);
+                worksheet.addRow(x)
+            }
+        }
+    
+    worksheet.addRow({});
+    worksheet.addRow({"sell_price":"Total:","sales_cost":sum});
+    res.setHeader(
+        "Content-Type",
+        "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+      );
+      res.setHeader(
+        "Content-Disposition",
+        "attachment; filename=" + "sales.xlsx"
+      );
+      return workbook.xlsx.write(res).then(function () {
+        res.status(200).end();
+      });
+    });
+
+    
+})
+
 
 
 app.get("/",(req,res) => {
@@ -34,6 +96,9 @@ app.get("/addProduct", (req,res) => {
     //home page
     res.render("addproduct.ejs");
 })
+
+
+
 
 app.get("/sales",(req,res)=>{
     
@@ -75,7 +140,42 @@ app.get("/salesgraph", (req,res)=>{
 })
 
 app.get("/report",(req,res)=>{
-    res.render("report.ejs");
+    // console.log(__dirname+ '/views/');
+    // db.collection("products").find().toArray((err,data)=> {
+    //     if(err){
+    //         res.send(err);
+    //     }
+    //     ejs.renderFile(path.join(__dirname, './views/', "report.ejs"),{res:data},function(err,data2){
+    //         if(err){
+    //             res.send(err);
+    //         }else{
+               
+    //             let options = {
+    //                 "height": "12.25in",
+    //                 "width": "8.5in",
+    //                 "header": {
+    //                     "height": "20mm"
+    //                 },
+    //                 "footer": {
+    //                     "height": "20mm",
+    //                 },
+    //             };
+    //             pdf.create(data2,options).toFile("report3.pdf",function(err,x){
+    //                 if(err){
+    //                     res.send(err);
+    //                 }else{
+    //                     res.send("File added");
+    //                 }
+    //             })
+    //         }
+    //     })
+        
+    //  });
+    db.collection("products").find().toArray((err,data)=> {
+        res.render("report.ejs",{res:data});
+    });
+
+   
 })
 
 app.get("/getAllProducts", (req,res) => {

@@ -10,7 +10,10 @@
 .side-bar
 {
     background-color: #085f63;
+    color:white;
     padding: 5px;
+    overflow-x: hidden;
+    padding-top: 20px;
 }
 
 .side-item{
@@ -28,3 +31,7 @@
     background-color:#49beb7;
 }
 
+@media screen and (max-height: 450px) {
+    .side-item {padding-top: 15px;}
+    .side-item {font-size: 18px;}
+  }
